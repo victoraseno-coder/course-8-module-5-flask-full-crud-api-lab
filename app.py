@@ -16,8 +16,8 @@ class Event:
 
 ## In-memory data store
 events = [
-    Event(1, "Tech Meetup"),
-    Event(2, "Python Workshop")
+    Event(1, "melenial brunch"),
+    Event(2, "early kickoff blues")
 ]
 
 ##Helper to find an event by ID
