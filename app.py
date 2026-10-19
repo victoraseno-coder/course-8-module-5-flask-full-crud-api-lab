@@ -1,33 +1,30 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-## Event class
+# Event class
 class Event:
     def __init__(self, id, title):
         self.id = id
         self.title = title
 
     def to_dict(self):
-        return {
-            "id": self.id,
-            "title": self.title
-        }
+        return {"id": self.id, "title": self.title}
 
-## In-memory data store
+# In-memory data store
 events = [
-    Event(1, "melenial brunch"),
-    Event(2, "early kickoff blues")
+    Event(1, "Melenial brunch"),
+    Event(2, "mwananchi rally")
 ]
 
-##Helper to find an event by ID
+# Helper to find an event by ID
 def get_event_by_id(event_id):
     for event in events:
         if event.id == event_id:
             return event
     return None
 
-##Create a new event
+# Create a new event from JSON input
 @app.route("/events", methods=["POST"])
 def create_event():
     data = request.get_json(silent=True)
@@ -41,7 +38,7 @@ def create_event():
 
     return jsonify(new_event.to_dict()), 201
 
-## Update an existing event
+# Update the title of an existing event
 @app.route("/events/<int:event_id>", methods=["PATCH"])
 def update_event(event_id):
     data = request.get_json(silent=True)
@@ -56,7 +53,7 @@ def update_event(event_id):
     event.title = data["title"]
     return jsonify(event.to_dict()), 200
 
-## Delete an event
+# Remove an event from the list
 @app.route("/events/<int:event_id>", methods=["DELETE"])
 def delete_event(event_id):
     event = get_event_by_id(event_id)
